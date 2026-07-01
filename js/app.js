@@ -14,8 +14,8 @@ const DEFAULTS = {
   yourName: '',
   cycleLength: 28,
   periodLength: 5,
-  // Seeded with her real cycle: started 30 June 2026.
-  history: [{ start: '2026-06-30', end: null }],
+  // No personal data ships in the code — you log her first period on setup.
+  history: [],
   prefs: {
     comfortFoods: [],
     drinks: [],

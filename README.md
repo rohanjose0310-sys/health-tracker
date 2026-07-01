@@ -28,8 +28,9 @@ iPhone home screen with its own icon, works fully offline, and keeps all data
 - **Liquid-Glass design** — Apple-style frosted glass, soft animated gradients,
   light & dark mode, and smooth motion. Respects *Reduce Motion*.
 
-The app comes pre-loaded with her current cycle (period started **30 June 2026**),
-so the Today screen shows **Day 2** out of the box.
+On first open, tap the **Calendar** tab and log her most recent period start
+date — from then on the Today screen shows her current cycle day, phase, and care
+plan. No personal data is stored in the code.
 
 ---
 
