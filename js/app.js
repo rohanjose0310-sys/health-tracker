@@ -242,26 +242,36 @@ const PHASES = {
   },
 };
 
-/* Merge her saved preferences into a phase's checklist. */
+/* Merge her saved preferences into a phase's checklist.
+   Each category collapses to ONE row so the plan never overcrowds.
+   Rows with 2+ saved items expand to show her ranked list (order = ranking). */
 function careItemsFor(phase) {
   const base = PHASES[phase].care.map((c, i) => ({ id: `${phase}-${i}`, ...c, fav: false }));
   const p = state.prefs;
-  const extras = [];
-  const push = (arr, verb, tag) => {
-    (arr || []).forEach((v, i) => extras.push({
-      id: `pref-${verb}-${i}-${v}`, t: `${verb} ${v}`, tag, fav: true,
-    }));
+  const favRows = [];
+  const cat = (key, title) => {
+    const list = (p[key] || []).filter((v) => v && v.trim());
+    if (!list.length) return;
+    if (list.length === 1) {
+      favRows.push({ id: `fav-${key}`, t: title, tag: list[0], fav: true });
+    } else {
+      favRows.push({
+        id: `fav-${key}`, t: title, fav: true,
+        tag: `Top pick: ${list[0]} · tap for all ${list.length}`,
+        options: list,
+      });
+    }
   };
   if (phase === 'menstrual' || phase === 'pms' || phase === 'luteal') {
-    push(p.comfortFoods, 'Get / make', 'Her comfort food 💗');
-    push(p.cravings, 'Have', 'Her craving 💗');
-    push(p.drinks, 'Bring her a', 'Her go-to drink 💗');
-    push(p.relief, 'Set up', 'What helps her 💗');
+    cat('comfortFoods', 'Get her a comfort food she loves');
+    cat('cravings', 'Have one of her cravings ready');
+    cat('drinks', 'Bring her a favourite drink');
+    cat('relief', 'Set up what helps her feel better');
   }
   if (phase === 'follicular' || phase === 'fertile' || phase === 'ovulation') {
-    push(p.activities, 'Suggest', 'Something she loves 💗');
+    cat('activities', 'Plan something she loves to do');
   }
-  return [...extras, ...base];
+  return [...favRows, ...base];
 }
 
 /* ---------------- Rendering ---------------- */
@@ -343,11 +353,18 @@ function viewToday() {
       <h2>Today’s care plan</h2>
       <p class="sub">Tap to check things off. Items marked 💗 are her saved favourites.</p>
       <ul class="checklist">
-        ${items.map((it) => `
-          <li class="check-item ${checks[it.id] ? 'done' : ''}" data-check="${it.id}">
-            <span class="check-box"><svg viewBox="0 0 20 20"><path d="M8 13.2 4.8 10l-1.4 1.4L8 16 17 7l-1.4-1.4z"/></svg></span>
-            <span class="ci-text ${it.fav ? 'ci-fav' : ''}">${esc(it.t)}<span class="ci-tag">${esc(it.tag)}</span></span>
-          </li>`).join('')}
+        ${items.map((it) => {
+          const hasOpts = it.options && it.options.length > 1;
+          return `
+          <li class="check-item ${checks[it.id] ? 'done' : ''} ${hasOpts ? 'expandable' : ''}" data-item="${it.id}">
+            <span class="check-box" data-check="${it.id}"><svg viewBox="0 0 20 20"><path d="M8 13.2 4.8 10l-1.4 1.4L8 16 17 7l-1.4-1.4z"/></svg></span>
+            <span class="ci-text ${it.fav ? 'ci-fav' : ''}" data-toggle="${it.id}" data-hasopts="${hasOpts ? 1 : 0}">${esc(it.t)}<span class="ci-tag">${esc(it.tag)}</span></span>
+            ${hasOpts ? `<span class="ci-chev" data-toggle="${it.id}" data-hasopts="1" aria-hidden="true">›</span>
+            <ol class="fav-opts" id="opts-${it.id}" hidden>
+              ${it.options.map((o, i) => `<li><span class="rk">${i + 1}</span>${esc(o)}</li>`).join('')}
+            </ol>` : ''}
+          </li>`;
+        }).join('')}
       </ul>
       <button class="btn ghost sm mt" data-go="care">Personalise these →</button>
     </div>
@@ -480,19 +497,28 @@ function careGuide() {
 }
 function carePrefs() {
   const p = state.prefs;
-  const group = (key, title, sub, placeholder) => `
+  const group = (key, title, sub, placeholder) => {
+    const list = p[key] || [];
+    return `
     <div class="card">
       <h2>${title}</h2>
       <p class="sub">${sub}</p>
-      <div class="chips" id="chips-${key}">
-        ${(p[key] || []).map((v, i) => `<span class="chip">${esc(v)}<span class="x" data-delpref="${key}:${i}">✕</span></span>`).join('')}
-        <span class="chip add" data-addpref="${key}" data-ph="${esc(placeholder)}">+ Add</span>
-      </div>
-      ${(p[key] || []).length === 0 ? `<p class="empty-hint">Nothing yet — tap “+ Add”.</p>` : ''}
+      ${list.length ? `<div class="rank-list">
+        ${list.map((v, i) => `
+          <div class="rank-row">
+            <span class="rank-badge">${i + 1}</span>
+            <span class="rank-name">${esc(v)}</span>
+            <button class="rank-btn" data-move="${key}:${i}:-1" ${i === 0 ? 'disabled' : ''} aria-label="Move up">↑</button>
+            <button class="rank-btn" data-move="${key}:${i}:1" ${i === list.length - 1 ? 'disabled' : ''} aria-label="Move down">↓</button>
+            <button class="rank-btn del" data-delpref="${key}:${i}" aria-label="Remove">✕</button>
+          </div>`).join('')}
+      </div>` : `<p class="empty-hint">Nothing yet — tap “+ Add”.</p>`}
+      <span class="chip add" data-addpref="${key}" data-ph="${esc(placeholder)}">+ Add</span>
     </div>`;
+  };
 
   return `
-    <p class="muted" style="margin:0 4px 14px">Save what <strong>she</strong> loves. These appear as 💗 favourites in her daily care plan at the right time of the month.</p>
+    <p class="muted" style="margin:0 4px 14px">Save what <strong>she</strong> loves and rank it with ↑ ↓ — <strong>#1 is her top pick</strong>. Each category shows as a single line in her care plan that expands to her ranked list, so it never gets cluttered. 💗</p>
     ${group('comfortFoods', 'Comfort foods 🍜', 'Meals & treats that make her feel better', 'e.g. tomato soup')}
     ${group('cravings', 'Cravings 🍫', 'What she reaches for around her period', 'e.g. dark chocolate')}
     ${group('drinks', 'Drinks 🍵', 'Her go-to warm or comforting drinks', 'e.g. ginger tea')}
@@ -606,15 +632,22 @@ function wire() {
   views.querySelectorAll('[data-go]').forEach((b) =>
     b.onclick = () => go(b.dataset.go));
 
-  // today: check items
+  // today: checkbox toggles done
   views.querySelectorAll('[data-check]').forEach((el) =>
+    el.onclick = (e) => { e.stopPropagation(); toggleDone(el.dataset.check); });
+
+  // today: tapping the text/chevron expands a favourite's ranked list,
+  // or (for non-expandable rows) toggles done — a bigger tap target.
+  views.querySelectorAll('[data-toggle]').forEach((el) =>
     el.onclick = () => {
-      const id = el.dataset.check;
-      const k = iso(today());
-      state.checkState[k] = state.checkState[k] || {};
-      state.checkState[k][id] = !state.checkState[k][id];
-      el.classList.toggle('done', state.checkState[k][id]);
-      save();
+      const id = el.dataset.toggle;
+      if (el.dataset.hasopts === '1') {
+        const list = document.getElementById(`opts-${id}`);
+        const item = views.querySelector(`.check-item[data-item="${id}"]`);
+        if (list) { list.hidden = !list.hidden; item.classList.toggle('open', !list.hidden); }
+      } else {
+        toggleDone(id);
+      }
     });
 
   // calendar nav
@@ -682,6 +715,15 @@ function wire() {
       state.prefs[key].splice(Number(i), 1);
       save(); render();
     });
+  // reorder (ranking): swap with neighbour
+  views.querySelectorAll('[data-move]').forEach((b) =>
+    b.onclick = () => {
+      const [key, i, dir] = b.dataset.move.split(':');
+      const arr = state.prefs[key]; const idx = Number(i); const j = idx + Number(dir);
+      if (j < 0 || j >= arr.length) return;
+      [arr[idx], arr[j]] = [arr[j], arr[idx]];
+      save(); render();
+    });
   bindEl('saveNotes', 'onclick', () => {
     state.prefs.loveLanguage = valOf('pref-loveLanguage');
     state.prefs.avoid = valOf('pref-avoid');
@@ -720,6 +762,14 @@ function wire() {
 }
 function bindEl(id, ev, fn) { const el = document.getElementById(id); if (el) el[ev] = fn; }
 function valOf(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function toggleDone(id) {
+  const k = iso(today());
+  state.checkState[k] = state.checkState[k] || {};
+  state.checkState[k][id] = !state.checkState[k][id];
+  save();
+  const item = views.querySelector(`.check-item[data-item="${id}"]`);
+  if (item) item.classList.toggle('done', state.checkState[k][id]);
+}
 
 function exportData() {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });

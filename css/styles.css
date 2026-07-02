@@ -172,9 +172,31 @@ body { overflow: hidden; }
 .check-item.done .check-box { background: linear-gradient(135deg, var(--rose), var(--lav)); border-color: transparent; }
 .check-item.done .check-box svg { opacity: 1; transform: scale(1); }
 .check-item.done .ci-text { opacity: 0.5; text-decoration: line-through; }
-.ci-text { font-size: 15px; line-height: 1.4; }
+.ci-text { font-size: 15px; line-height: 1.4; flex: 1; cursor: pointer; }
 .ci-text .ci-tag { display: block; font-size: 12px; color: var(--text-faint); margin-top: 2px; }
 .ci-fav { color: var(--rose-deep); }
+.check-item { flex-wrap: wrap; }
+.check-item.expandable { cursor: pointer; }
+.ci-chev { flex: none; color: var(--text-faint); font-size: 20px; line-height: 26px; padding: 0 2px; cursor: pointer; transition: transform 0.3s var(--ease); }
+.check-item.open .ci-chev { transform: rotate(90deg); }
+.fav-opts { flex-basis: 100%; width: 100%; list-style: none; margin: 8px 0 2px 39px; padding: 0;
+  animation: viewIn 0.35s var(--ease) both; }
+.fav-opts li { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 14.5px; color: var(--text); }
+.fav-opts .rk { flex: none; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center;
+  font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--rose-deep), var(--lav)); }
+
+/* ---------- Ranked-list editor (Care > favourites) ---------- */
+.rank-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.rank-row { display: flex; align-items: center; gap: 9px; padding: 9px 10px; border-radius: 14px;
+  background: var(--glass-bg); border: 1px solid var(--glass-brd); box-shadow: inset 0 1px 0 0 var(--glass-hi); }
+.rank-badge { flex: none; width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center;
+  font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--rose-deep), var(--lav)); }
+.rank-name { flex: 1; font-size: 15px; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-btn { flex: none; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--glass-brd);
+  background: var(--glass-bg-strong); color: var(--text); font-size: 15px; cursor: pointer; box-shadow: inset 0 1px 0 0 var(--glass-hi); }
+.rank-btn:disabled { opacity: 0.3; cursor: default; }
+.rank-btn.del { color: var(--rose-deep); }
+.rank-btn:active:not(:disabled) { filter: brightness(1.08); transform: scale(0.94); }
 
 /* ---------- Chips ---------- */
 .chips { display: flex; flex-wrap: wrap; gap: 9px; }
