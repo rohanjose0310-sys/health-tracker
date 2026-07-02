@@ -36,14 +36,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --glass-bg: rgba(38, 30, 50, 0.5);
-    --glass-bg-strong: rgba(46, 36, 60, 0.68);
-    --glass-brd: rgba(255, 255, 255, 0.14);
-    --glass-hi: rgba(255, 255, 255, 0.22);
-    --shadow: 0 14px 44px -14px rgba(0, 0, 0, 0.6);
-    --text: #f3e9f5;
+    --glass-bg: rgba(34, 27, 46, 0.38);
+    --glass-bg-strong: rgba(44, 35, 58, 0.6);
+    --glass-brd: rgba(255, 255, 255, 0.12);
+    --glass-hi: rgba(255, 255, 255, 0.28);
+    --shadow: 0 18px 50px -18px rgba(0, 0, 0, 0.7);
+    --text: #f6eef8;
     --text-soft: #cbb9d2;
     --text-faint: #9784a0;
+  }
+}
+
+/* Liquid-glass specular rim: a crisp gradient border, brightest at the
+   curved corners, drawn with a masked pseudo-element (no bleed). */
+.rim { position: relative; }
+.rim::before, .card::before, .tabbar::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  padding: 1.25px; pointer-events: none; z-index: 1;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.85), rgba(255,255,255,0.12) 26%,
+    rgba(255,255,255,0.06) 52%, rgba(255,255,255,0.28) 76%, rgba(255,255,255,0.7));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+@media (prefers-color-scheme: dark) {
+  .rim::before, .card::before, .tabbar::before {
+    background: linear-gradient(135deg,
+      rgba(255,255,255,0.5), rgba(255,255,255,0.05) 26%,
+      rgba(255,255,255,0.03) 52%, rgba(255,255,255,0.13) 76%, rgba(255,255,255,0.4));
   }
 }
 
@@ -113,11 +133,12 @@ body { overflow: hidden; }
 
 /* ---------- Cards ---------- */
 .card {
+  position: relative;
   background: var(--glass-bg);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid var(--glass-brd);
-  box-shadow: var(--shadow), inset 0 1px 0 0 var(--glass-hi);
+  backdrop-filter: blur(34px) saturate(190%);
+  -webkit-backdrop-filter: blur(34px) saturate(190%);
+  border: none;
+  box-shadow: var(--shadow), inset 0 1px 1px 0 var(--glass-hi);
   border-radius: var(--radius);
   padding: 20px;
   margin-bottom: 16px;
@@ -218,7 +239,7 @@ body { overflow: hidden; }
   font-size: 16px; font-weight: 700; color: #fff;
   padding: 15px 20px; border-radius: 16px; width: 100%;
   background: linear-gradient(135deg, var(--rose-deep), var(--lav));
-  box-shadow: 0 8px 22px -8px var(--rose-deep), inset 0 1px 0 0 rgba(255,255,255,0.4);
+  box-shadow: 0 6px 16px -9px rgba(240,103,149,0.65), inset 0 1px 0 0 rgba(255,255,255,0.45);
   transition: transform 0.2s var(--ease), filter 0.2s var(--ease);
 }
 .btn:active { transform: scale(0.97); filter: brightness(1.05); }
@@ -287,24 +308,68 @@ body { overflow: hidden; }
 .seg button { flex: 1; border: none; background: transparent; padding: 10px; border-radius: 11px; font-family: var(--font); font-weight: 700; font-size: 14px; color: var(--text-soft); cursor: pointer; transition: all 0.25s var(--ease); }
 .seg button.on { background: linear-gradient(135deg, var(--rose-deep), var(--lav)); color: #fff; box-shadow: 0 4px 12px -4px var(--rose-deep); }
 
-/* ---------- Tab bar ---------- */
+/* ---------- Tab bar (Liquid Glass dock) ---------- */
 .tabbar {
-  position: fixed; left: 12px; right: 12px; bottom: calc(var(--safe-b) + 10px);
+  position: fixed; left: 14px; right: 14px; bottom: calc(var(--safe-b) + 12px);
   height: var(--tabbar-h);
-  border-radius: 28px;
+  border-radius: 32px;
   display: flex; align-items: center; justify-content: space-around;
-  padding: 0 6px; z-index: 50;
+  padding: 0 8px; z-index: 50;
+  /* clearer glass: highly transparent, heavy blur — OLED shows through */
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(44px) saturate(210%);
+  -webkit-backdrop-filter: blur(44px) saturate(210%);
+  box-shadow:
+    0 16px 44px -10px rgba(40, 12, 44, 0.34),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.75),
+    inset 0 -8px 16px rgba(255, 255, 255, 0.06);
 }
+@media (prefers-color-scheme: dark) {
+  .tabbar {
+    background: rgba(22, 18, 32, 0.34);
+    box-shadow:
+      0 18px 48px -8px rgba(0, 0, 0, 0.7),
+      inset 0 1px 1.5px rgba(255, 255, 255, 0.35),
+      inset 0 -8px 18px rgba(255, 255, 255, 0.04);
+  }
+}
+
 .tab {
-  flex: 1; border: none; background: transparent; cursor: pointer;
+  flex: 1; border: none; background: transparent; cursor: pointer; position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 3px;
-  color: var(--text-faint); font-family: var(--font); font-size: 10.5px; font-weight: 600;
-  padding: 8px 0; border-radius: 18px; transition: color 0.25s var(--ease);
+  color: rgba(58, 44, 63, 0.62); font-family: var(--font); font-size: 10.5px; font-weight: 600;
+  padding: 8px 0; z-index: 1; transition: color 0.3s var(--ease);
 }
-.tab .ico { width: 25px; height: 25px; fill: currentColor; transition: transform 0.3s var(--ease); }
+.tab .ico { width: 26px; height: 26px; fill: currentColor;
+  transition: transform 0.35s var(--ease); }
+/* selected: a smaller, less-curvy, blurry glass tile lifts behind the icon */
+.tab.on::before {
+  content: ""; position: absolute; inset: 5px 8px; border-radius: 16px; z-index: -1;
+  background: rgba(255, 255, 255, 0.34);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.12),
+    0 4px 12px -2px rgba(40, 12, 44, 0.25);
+  animation: tileIn 0.35s var(--ease) both;
+}
 .tab.on { color: var(--rose-deep); }
-.tab.on .ico { transform: translateY(-1px) scale(1.08); }
-@media (prefers-color-scheme: dark) { .tab.on { color: var(--rose); } }
+.tab.on .ico { transform: translateY(-1px) scale(1.06); }
+@keyframes tileIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: none; } }
+
+@media (prefers-color-scheme: dark) {
+  /* bright OLED whites for inactive tabs, bright rose for the active one */
+  .tab { color: rgba(255, 255, 255, 0.82); }
+  .tab.on { color: #ff9ec2; }
+  .tab.on::before {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.55),
+      inset 0 -2px 5px rgba(255, 255, 255, 0.05),
+      0 4px 14px -2px rgba(0, 0, 0, 0.45);
+  }
+}
+@media (prefers-reduced-motion: reduce) { .tab.on::before { animation: none; } }
 
 /* ---------- Toast ---------- */
 .toast {
