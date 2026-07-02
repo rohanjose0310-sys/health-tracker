@@ -508,6 +508,7 @@ function carePrefs() {
           <div class="rank-row">
             <span class="rank-badge">${i + 1}</span>
             <span class="rank-name">${esc(v)}</span>
+            <button class="rank-btn star ${i === 0 ? 'is-top' : ''}" data-top="${key}:${i}" ${i === 0 ? 'disabled' : ''} aria-label="${i === 0 ? 'Top pick' : 'Make top pick'}">${i === 0 ? '★' : '☆'}</button>
             <button class="rank-btn" data-move="${key}:${i}:-1" ${i === 0 ? 'disabled' : ''} aria-label="Move up">↑</button>
             <button class="rank-btn" data-move="${key}:${i}:1" ${i === list.length - 1 ? 'disabled' : ''} aria-label="Move down">↓</button>
             <button class="rank-btn del" data-delpref="${key}:${i}" aria-label="Remove">✕</button>
@@ -518,7 +519,7 @@ function carePrefs() {
   };
 
   return `
-    <p class="muted" style="margin:0 4px 14px">Save what <strong>she</strong> loves and rank it with ↑ ↓ — <strong>#1 is her top pick</strong>. Each category shows as a single line in her care plan that expands to her ranked list, so it never gets cluttered. 💗</p>
+    <p class="muted" style="margin:0 4px 14px">Save what <strong>she</strong> loves, then rank it: tap <strong>★</strong> to make something her <strong>#1 top pick</strong>, or nudge with ↑ ↓. Each category shows as a single line in her care plan that expands to her ranked list, so it never gets cluttered. 💗</p>
     ${group('comfortFoods', 'Comfort foods 🍜', 'Meals & treats that make her feel better', 'e.g. tomato soup')}
     ${group('cravings', 'Cravings 🍫', 'What she reaches for around her period', 'e.g. dark chocolate')}
     ${group('drinks', 'Drinks 🍵', 'Her go-to warm or comforting drinks', 'e.g. ginger tea')}
@@ -723,6 +724,16 @@ function wire() {
       if (j < 0 || j >= arr.length) return;
       [arr[idx], arr[j]] = [arr[j], arr[idx]];
       save(); render();
+    });
+  // ★ jump an item straight to #1
+  views.querySelectorAll('[data-top]').forEach((b) =>
+    b.onclick = () => {
+      const [key, i] = b.dataset.top.split(':');
+      const arr = state.prefs[key]; const idx = Number(i);
+      if (idx <= 0) return;
+      const [item] = arr.splice(idx, 1);
+      arr.unshift(item);
+      save(); render(); toast('Set as top pick ★');
     });
   bindEl('saveNotes', 'onclick', () => {
     state.prefs.loveLanguage = valOf('pref-loveLanguage');

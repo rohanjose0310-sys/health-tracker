@@ -187,15 +187,17 @@ body { overflow: hidden; }
 
 /* ---------- Ranked-list editor (Care > favourites) ---------- */
 .rank-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-.rank-row { display: flex; align-items: center; gap: 9px; padding: 9px 10px; border-radius: 14px;
+.rank-row { display: flex; align-items: center; gap: 6px; padding: 8px 9px; border-radius: 14px;
   background: var(--glass-bg); border: 1px solid var(--glass-brd); box-shadow: inset 0 1px 0 0 var(--glass-hi); }
-.rank-badge { flex: none; width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center;
-  font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--rose-deep), var(--lav)); }
-.rank-name { flex: 1; font-size: 15px; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rank-btn { flex: none; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--glass-brd);
-  background: var(--glass-bg-strong); color: var(--text); font-size: 15px; cursor: pointer; box-shadow: inset 0 1px 0 0 var(--glass-hi); }
+.rank-badge { flex: none; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center;
+  font-size: 11.5px; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--rose-deep), var(--lav)); margin-right: 2px; }
+.rank-name { flex: 1; font-size: 14.5px; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-btn { flex: none; width: 31px; height: 31px; border-radius: 9px; border: 1px solid var(--glass-brd);
+  background: var(--glass-bg-strong); color: var(--text); font-size: 14px; cursor: pointer; box-shadow: inset 0 1px 0 0 var(--glass-hi); }
 .rank-btn:disabled { opacity: 0.3; cursor: default; }
 .rank-btn.del { color: var(--rose-deep); }
+.rank-btn.star { color: #e9a93a; }
+.rank-btn.star.is-top { opacity: 1; color: #f2b73f; background: rgba(242,183,63,0.16); border-color: rgba(242,183,63,0.5); }
 .rank-btn:active:not(:disabled) { filter: brightness(1.08); transform: scale(0.94); }
 
 /* ---------- Chips ---------- */
