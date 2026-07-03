@@ -1,0 +1,17 @@
+{
+  "name": "Cycle Care",
+  "short_name": "Cycle Care",
+  "description": "A gentle period tracker for a boyfriend who wants to show up and care.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1526",
+  "theme_color": "#f7c8d6",
+  "categories": ["health", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

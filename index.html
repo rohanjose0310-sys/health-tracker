@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#f7c8d6" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1526" media="(prefers-color-scheme: dark)" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Cycle Care" />
+  <meta name="description" content="A gentle period tracker for a boyfriend who wants to show up and care." />
+  <title>Cycle Care</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="icon" href="icons/favicon-64.png" type="image/png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Animated Liquid-Glass background -->
+  <div class="bg" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+    <span class="blob b4"></span>
+  </div>
+
+  <div class="app" id="app">
+    <!-- Views are rendered here -->
+    <main class="views" id="views"></main>
+
+    <!-- iOS-style glass tab bar -->
+    <nav class="tabbar" id="tabbar" aria-label="Main navigation">
+      <button class="tab" data-view="today" aria-label="Today">
+        <svg viewBox="0 0 24 24" class="ico"><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.51 8.51 0 0 0 12 3.5Zm0 15A6.5 6.5 0 1 1 18.5 12 6.5 6.5 0 0 1 12 18.5Z"/><path d="M12.75 8a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 .3.6l2.5 1.9a.75.75 0 1 0 .9-1.2l-2.2-1.68Z"/></svg>
+        <span>Today</span>
+      </button>
+      <button class="tab" data-view="calendar" aria-label="Calendar">
+        <svg viewBox="0 0 24 24" class="ico"><path d="M7 2.75a.75.75 0 0 1 .75.75V4.5h8.5V3.5a.75.75 0 0 1 1.5 0v1h.5A2.25 2.25 0 0 1 20.5 6.75v11A2.25 2.25 0 0 1 18.25 20h-12.5A2.25 2.25 0 0 1 3.5 17.75v-11A2.25 2.25 0 0 1 5.75 4.5h.5v-1A.75.75 0 0 1 7 2.75Zm-1.25 6v9c0 .41.34.75.75.75h12.5a.75.75 0 0 0 .75-.75v-9Z"/></svg>
+        <span>Calendar</span>
+      </button>
+      <button class="tab" data-view="care" aria-label="Care">
+        <svg viewBox="0 0 24 24" class="ico"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>Care</span>
+      </button>
+      <button class="tab" data-view="settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" class="ico"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54A.48.48 0 0 0 13.5 2h-3a.48.48 0 0 0-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
