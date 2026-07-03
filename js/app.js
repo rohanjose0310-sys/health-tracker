@@ -178,7 +178,7 @@ function classifyDay(date) {
 const PHASES = {
   menstrual: {
     name: 'Period', color: '#f06795',
-    feel: (n) => `${n ? n : 'She'} may feel low-energy, crampy, or tender right now. Warmth, softness, and zero pressure go a long way. 💗`,
+    feel: (n) => `${n ? n : 'She'} may feel low-energy, crampy, or tender right now. Warmth, softness, and zero pressure go a long way.`,
     care: [
       { t: 'Fill a hot water bottle / heating pad', tag: 'Cramps ease with heat on the lower belly or back' },
       { t: 'Make something warm & comforting to eat', tag: 'Soup, congee, noodles, dark chocolate' },
@@ -191,7 +191,7 @@ const PHASES = {
   },
   follicular: {
     name: 'Follicular', color: '#a8d0ff',
-    feel: (n) => `Energy and mood are climbing back up. ${n ? n : 'She'} may feel fresh, social, and up for things again. ☀️`,
+    feel: (n) => `Energy and mood are climbing back up. ${n ? n : 'She'} may feel fresh, social, and up for things again.`,
     care: [
       { t: 'Suggest a fun plan or date', tag: 'Rising energy — great for activities she loves' },
       { t: 'Cook something fresh & light', tag: 'She may crave lighter, brighter food now' },
@@ -201,7 +201,7 @@ const PHASES = {
   },
   fertile: {
     name: 'Fertile window', color: '#9fe3c9',
-    feel: (n) => `${n ? n : 'She'} is likely feeling her most energetic, confident, and affectionate. 🌿`,
+    feel: (n) => `${n ? n : 'She'} is likely feeling her most energetic, confident, and affectionate.`,
     care: [
       { t: 'Plan a special date', tag: 'Peak energy, mood, and confidence' },
       { t: 'Be affectionate & present', tag: 'Libido and closeness often peak here' },
@@ -211,7 +211,7 @@ const PHASES = {
   },
   ovulation: {
     name: 'Ovulation', color: '#7ad3ad',
-    feel: (n) => `Right around ovulation — ${n ? n : 'she'} may feel radiant and high-energy, though some feel a twinge of mid-cycle cramp. 🌸`,
+    feel: (n) => `Right around ovulation — ${n ? n : 'she'} may feel radiant and high-energy, though some feel a twinge of mid-cycle cramp.`,
     care: [
       { t: 'Make her feel appreciated', tag: 'Confidence peaks — a compliment lands well' },
       { t: 'Have a light painkiller handy', tag: 'Some feel a brief ovulation twinge (mittelschmerz)' },
@@ -220,7 +220,7 @@ const PHASES = {
   },
   luteal: {
     name: 'Luteal', color: '#b09cf0',
-    feel: (n) => `Energy gently winds down. ${n ? n : 'She'} may start craving comfort and calm as the next period approaches. 🌙`,
+    feel: (n) => `Energy gently winds down. ${n ? n : 'She'} may start craving comfort and calm as the next period approaches.`,
     care: [
       { t: 'Keep comfort snacks around', tag: 'Cravings (salty / sweet / carby) start ramping up' },
       { t: 'Ease off the caffeine together', tag: 'Can reduce irritability & breast tenderness' },
@@ -230,7 +230,7 @@ const PHASES = {
   },
   pms: {
     name: 'PMS', color: '#c8a0e8',
-    feel: (n) => `The days before her period. ${n ? n : 'She'} may feel more emotional, bloated, tired, or irritable — none of it is personal. Lead with patience. 🫂`,
+    feel: (n) => `The days before her period. ${n ? n : 'She'} may feel more emotional, bloated, tired, or irritable — none of it is personal. Lead with patience.`,
     care: [
       { t: 'Lead with patience & reassurance', tag: 'Mood swings are hormonal, not about you' },
       { t: 'Stock her cravings in advance', tag: 'Have the salty/sweet comfort foods ready' },
@@ -300,7 +300,7 @@ function viewToday() {
   const info = cycleInfo();
   if (!info.hasData) {
     return `<div class="view">
-      ${header('Today', 'Let’s set things up 💗')}
+      ${header('Today', 'Let’s set things up')}
       <div class="card center">
         <p class="muted">Add her most recent period start date to begin.</p>
         <button class="btn mt" data-go="calendar">Log her period</button>
@@ -351,7 +351,7 @@ function viewToday() {
 
     <div class="card">
       <h2>Today’s care plan</h2>
-      <p class="sub">Tap to check things off. Items marked 💗 are her saved favourites.</p>
+      <p class="sub">Tap to check things off. Her saved favourites are highlighted in pink.</p>
       <ul class="checklist">
         ${items.map((it) => {
           const hasOpts = it.options && it.options.length > 1;
@@ -395,10 +395,10 @@ function viewCalendar() {
     <div class="card">
       <h2>What’s coming</h2>
       <ul class="checklist">
-        ${predRow('🩸', 'Next period', `${fmt(info.nextStart, { weekday: 'short', month: 'long', day: 'numeric' })}`, info.daysUntilNext > 0 ? `in ${info.daysUntilNext} days` : 'around now')}
-        ${predRow('🌸', 'Ovulation (est.)', `${fmt(info.ovulation, { weekday: 'short', month: 'long', day: 'numeric' })}`, info.daysUntilOvul > 0 ? `in ${info.daysUntilOvul} days` : (info.daysUntilOvul === 0 ? 'today' : 'passed'))}
-        ${predRow('🌿', 'Fertile window', `${fmt(info.fertileStart)} – ${fmt(info.fertileEnd)}`, '')}
-        ${predRow('🌙', 'PMS may start', `${fmt(info.pmsStart, { weekday: 'short', month: 'long', day: 'numeric' })}`, '')}
+        ${predRow('#f06795', 'Next period', `${fmt(info.nextStart, { weekday: 'short', month: 'long', day: 'numeric' })}`, info.daysUntilNext > 0 ? `in ${info.daysUntilNext} days` : 'around now')}
+        ${predRow('#5cc5a0', 'Ovulation (est.)', `${fmt(info.ovulation, { weekday: 'short', month: 'long', day: 'numeric' })}`, info.daysUntilOvul > 0 ? `in ${info.daysUntilOvul} days` : (info.daysUntilOvul === 0 ? 'today' : 'passed'))}
+        ${predRow('#9fe3c9', 'Fertile window', `${fmt(info.fertileStart)} – ${fmt(info.fertileEnd)}`, '')}
+        ${predRow('#b09cf0', 'PMS may start', `${fmt(info.pmsStart, { weekday: 'short', month: 'long', day: 'numeric' })}`, '')}
       </ul>
     </div>` : '';
 
@@ -442,10 +442,10 @@ function viewCalendar() {
     </div>
   </div>`;
 }
-function predRow(emoji, title, val, tag) {
+function predRow(color, title, val, tag) {
   return `<li class="check-item" style="cursor:default">
-    <span style="font-size:22px;flex:none;width:26px;text-align:center">${emoji}</span>
-    <span class="ci-text"><strong>${title}</strong> — ${esc(val)}<span class="ci-tag">${esc(tag)}</span></span>
+    <span class="pred-dot" style="background:${color}"></span>
+    <span class="ci-text"><strong>${title}</strong> — ${esc(val)}${tag ? `<span class="ci-tag">${esc(tag)}</span>` : ''}</span>
   </li>`;
 }
 function historyList() {
@@ -458,7 +458,7 @@ function historyList() {
       const label = hst.end
         ? `${fmt(s, { month: 'short', day: 'numeric' })} – ${fmt(parse(hst.end), { month: 'short', day: 'numeric' })}`
         : `${fmt(s, { month: 'short', day: 'numeric', year: 'numeric' })}`;
-      return `<div class="chip">🩸 ${label}<span class="x" data-delperiod="${realIdx}">✕</span></div>`;
+      return `<div class="chip"><span class="pred-dot" style="background:#f06795;margin:0 6px 0 0;box-shadow:none"></span>${label}<span class="x" data-delperiod="${realIdx}">✕</span></div>`;
     }).join('');
   return `<hr class="hr"><div class="chips">${rows}</div>`;
 }
@@ -519,14 +519,14 @@ function carePrefs() {
   };
 
   return `
-    <p class="muted" style="margin:0 4px 14px">Save what <strong>she</strong> loves, then rank it: tap <strong>★</strong> to make something her <strong>#1 top pick</strong>, or nudge with ↑ ↓. Each category shows as a single line in her care plan that expands to her ranked list, so it never gets cluttered. 💗</p>
-    ${group('comfortFoods', 'Comfort foods 🍜', 'Meals & treats that make her feel better', 'e.g. tomato soup')}
-    ${group('cravings', 'Cravings 🍫', 'What she reaches for around her period', 'e.g. dark chocolate')}
-    ${group('drinks', 'Drinks 🍵', 'Her go-to warm or comforting drinks', 'e.g. ginger tea')}
-    ${group('relief', 'What helps her feel better 🧣', 'Heating pad, meds, a specific blanket…', 'e.g. hot water bottle')}
-    ${group('activities', 'Things she loves to do 🎬', 'Her favourite ways to relax or have fun', 'e.g. cozy movie night')}
+    <p class="muted" style="margin:0 4px 14px">Save what <strong>she</strong> loves, then rank it: tap <strong>★</strong> to make something her <strong>#1 top pick</strong>, or nudge with ↑ ↓. Each category shows as a single line in her care plan that expands to her ranked list, so it never gets cluttered.</p>
+    ${group('comfortFoods', 'Comfort foods', 'Meals and treats that make her feel better', 'e.g. tomato soup')}
+    ${group('cravings', 'Cravings', 'What she reaches for around her period', 'e.g. dark chocolate')}
+    ${group('drinks', 'Drinks', 'Her go-to warm or comforting drinks', 'e.g. ginger tea')}
+    ${group('relief', 'What helps her feel better', 'Heating pad, meds, a specific blanket…', 'e.g. hot water bottle')}
+    ${group('activities', 'Things she loves to do', 'Her favourite ways to relax or have fun', 'e.g. cozy movie night')}
     <div class="card">
-      <h2>Notes to self 📝</h2>
+      <h2>Notes to self</h2>
       <p class="sub">Anything else that helps you take care of her.</p>
       <div class="field">
         <label>Her love language / what she needs most</label>
@@ -572,14 +572,14 @@ function viewSettings() {
     </div>
 
     <div class="card">
-      <h2>Reminders on your iPhone 🔔</h2>
+      <h2>Reminders on your iPhone</h2>
       <p class="sub">iPhone limits web-app notifications, so the most reliable nudges come from Apple’s own apps. Two easy options:</p>
       <div class="acc" open><div class="body" style="padding:16px 18px">
         <strong>Calendar (simplest):</strong>
         <ul>
           <li>Open <em>Calendar</em> → new event on her next predicted period date (see the Calendar tab).</li>
           <li>Set it to <em>Repeat: every ${state.cycleLength} days</em>, alert <em>2 days before</em>.</li>
-          <li>Rename it “Prep for her 💗 — supplies, snacks, heating pad”.</li>
+          <li>Rename it “Prep for her — supplies, snacks, heating pad”.</li>
         </ul>
         <strong>Shortcuts automation (smart):</strong>
         <ul>
@@ -601,7 +601,7 @@ function viewSettings() {
       <input type="file" id="importFile" accept="application/json" hidden/>
     </div>
 
-    <p class="disclaimer">Cycle Care is a personal companion to help you support your partner. It is not medical advice, a diagnostic tool, or a method of contraception. If she has concerns about her health, please see a doctor. Made with 💗</p>
+    <p class="disclaimer">Cycle Care is a personal companion to help you support your partner. It is not medical advice, a diagnostic tool, or a method of contraception. If she has concerns about her health, please see a doctor.</p>
     <p class="tiny center mt">Cycle Care · v1 · works offline</p>
   </div>`;
 }
@@ -609,7 +609,7 @@ function viewSettings() {
 /* ---------------- Shared ---------------- */
 function header(title, sub) {
   return `<header class="hd">
-    <div class="eyebrow"><span class="heart-beat">💗</span> Cycle Care</div>
+    <div class="eyebrow">Cycle Care</div>
     <h1>${esc(title)}</h1>
     <p>${esc(sub)}</p>
   </header>`;
@@ -668,7 +668,7 @@ function wire() {
   views.querySelectorAll('[data-day]').forEach((c) =>
     c.onclick = () => {
       const d = c.dataset.day;
-      if (parse(d) > today()) { toast('That day hasn’t happened yet 😊'); return; }
+      if (parse(d) > today()) { toast('That day hasn’t happened yet'); return; }
       const input = document.getElementById('newStart');
       if (input) { input.value = d; toast(`Selected ${fmt(parse(d))}. Tap “Add start date”.`); input.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     });
@@ -678,7 +678,7 @@ function wire() {
     if (!v) return toast('Pick a date first');
     if (state.history.some((hst) => hst.start === v)) return toast('That start date is already logged');
     state.history.push({ start: v, end: null });
-    save(); toast('Period logged 🩸'); render();
+    save(); toast('Period logged'); render();
   });
   bindEl('endToday', 'onclick', () => {
     const starts = sortedStarts();
@@ -707,7 +707,7 @@ function wire() {
       if (val && val.trim()) {
         state.prefs[key] = state.prefs[key] || [];
         state.prefs[key].push(val.trim());
-        save(); render(); toast('Added 💗');
+        save(); render(); toast('Added');
       }
     });
   views.querySelectorAll('[data-delpref]').forEach((x) =>
@@ -739,7 +739,7 @@ function wire() {
     state.prefs.loveLanguage = valOf('pref-loveLanguage');
     state.prefs.avoid = valOf('pref-avoid');
     state.prefs.notes = valOf('pref-notes');
-    save(); toast('Saved 💗');
+    save(); toast('Saved');
   });
 
   // settings
@@ -759,7 +759,7 @@ function wire() {
       if (el) el.textContent = state[key];
     });
   bindEl('addToHome', 'onclick', () =>
-    toast('In Safari: tap Share ⬆️ → “Add to Home Screen”'));
+    toast('In Safari: tap the Share icon → “Add to Home Screen”'));
   bindEl('exportData', 'onclick', exportData);
   bindEl('importData', 'onclick', () => document.getElementById('importFile').click());
   bindEl('importFile', 'onchange', importData);
@@ -798,7 +798,7 @@ function importData(e) {
     try {
       const data = JSON.parse(reader.result);
       state = { ...structuredClone(DEFAULTS), ...data, prefs: { ...DEFAULTS.prefs, ...(data.prefs || {}) } };
-      save(); go('today'); toast('Backup restored 💗');
+      save(); go('today'); toast('Backup restored');
     } catch (err) { toast('Could not read that file'); }
   };
   reader.readAsText(file);
